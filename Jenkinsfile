@@ -12,9 +12,11 @@ node('master') {
 		sh "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test"
 	}
 
-	stage ('Sonar Analysis'){
-		//sh 'mvn sonar:sonar -Dsonar.host.url=http://35.153.67.119:9000 -Dsonar.login=77467cfd2653653ad3b35463fbfdb09285f08be5'
-	}
+	stage("build & SonarQube analysis") {
+          
+               sh 'mvn clean package sonar:sonar'
+              
+        }
 
 	stage ('Archive Artifacts'){
 		archiveArtifacts artifacts: 'target/*.war'
